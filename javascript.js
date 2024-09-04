@@ -51,7 +51,7 @@ const Player = function(name, symbol){
 }
 
 //gameController
-// No need to check if row / col is within array lenght since on html they wont see
+// No need to check if row / col is within array length since on html they wont see
 // focus on getting a win con
 
 const GameController = (function(){
