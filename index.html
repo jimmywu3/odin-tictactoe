@@ -11,15 +11,32 @@
 <body>
     <div class="gameInfo">
         <div class="title">
-            <h3 class="player1">Player 1: X</h3>
-            <h3>VS</h3>
-            <h3 class="player2">Player 2: O</h3>
+            <div class="versus">
+                <h3 class="player1">Player 1: X</h3>
+                <h3>VS</h3>
+                <h3 class="player2">Player 2: O</h3>
+            </div>
+            <div class="rename">
+                <button class="openModal">Rename</button>
+                <dialog>
+                    <h3>Please enter new names!</h3>
+                    <div class="prompts">
+                        <label for="player1">Player 1:</label>
+                        <input type="text" name="player1" id="player1">
+                        <label for="player2">Player 2:</label>
+                        <input type="text" name="player2" id="player2">
+                        <button class="submit">Submit</button>
+                    </div>
+                    <button class="closeModal">Close</button>
+                </dialog>
+            </div>
         </div>
         <div class="info">
             <h3 class="status">Status</h3>
             <h3 class="moveHistory">Last Turn:</h3>
         </div>
     </div>
+    <button class="reset">Reset</button>
     <div class="board">
         <button class="0,0"></button>
         <button class="0,1"></button>

@@ -1,26 +1,62 @@
-*{
-    margin: 0;
-    padding: 0;
-}
-
 .gameInfo{
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.gameInfo div{
-    margin: 8px 0px;
+h3{
+    margin: 8px 0;
 }
 
 .gameInfo .title{
     display: flex;
-    width: 50%;
-    justify-content: space-evenly;
+    flex-direction: column;
 }
+
+.versus{
+    display: flex;
+    gap: 16px;
+}
+
+.versus h3{
+    align-self: center;
+}
+
+.rename{
+    display: flex;
+    justify-content: center;
+}
+
+dialog{
+    padding: 8px;
+}
+
+.closeModal{
+    width: 100%;
+}
+
+.prompts{
+    display: flex;
+    flex-direction: column;
+}
+
+.prompts > input:last-of-type{
+    margin-bottom: 8px;
+}
+
+.prompts button{
+    margin-bottom: 8px;
+    width: 100%;
+}
+
 
 .gameInfo .info{
     text-align: center; 
+}
+
+.reset{
+    display: block;
+    margin: auto;
 }
 
 .board{
@@ -37,9 +73,5 @@
 .board button{
     border: 0;
     background-color: white;
+    font-size: xx-large;
 }
-
-.board button:hover{
-    background-color: lightgrey;
-}
-

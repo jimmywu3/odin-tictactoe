@@ -59,8 +59,8 @@ const Player = function(name, symbol){
 
 const GameController = (function(){
     const players = [
-        Player("player1", "1"), 
-        Player("player2", "2")
+        Player("player1", "X"), 
+        Player("player2", "O")
     ]
 
     let currentPlayer = players[0];
@@ -102,24 +102,72 @@ const GameController = (function(){
 
     printNewRound();
 
-    return {playRound, getCurrentPlayer};
+    return {playRound, switchPlayer, getCurrentPlayer};
 })();
 
 const DisplayController = (function(){
-    const assignButtons = () => {
-        const buttons = document.querySelectorAll(".board button");
-        const status = document.querySelector(".status");
+    const buttons = document.querySelectorAll(".board button");
+
+    buttons.forEach((button) => {
+        const position = button.className.split(",");
+        button.addEventListener("click", () => {
+            if(board.getBoard()[position[0]][position[1]] == 0 && !(board.checkBoard(GameController.getCurrentPlayer().symbol))){
+                button.textContent = GameController.getCurrentPlayer().symbol;
+                GameController.playRound(position[0], position[1]);
+                button.style["color"] = "black";
+            }
+        })
+
+        button.addEventListener("mouseover", () => {
+            console.log("hi")
+            if(board.getBoard()[position[0]][position[1]] == 0 && !(board.checkBoard(GameController.getCurrentPlayer().symbol))){
+                button.textContent = GameController.getCurrentPlayer().symbol;
+                button.style["color"] = "rgba(0,0,0, 0.5)";
+            }
+        })
+
+        button.addEventListener("mouseout", () => {
+            console.log("bye")
+            if(board.getBoard()[position[0]][position[1]] == 0 && !(board.checkBoard(GameController.getCurrentPlayer().symbol))){
+            button.textContent = "";
+            button.style["color"] = "black";
+            }
+        })
+    });
+
+    const status = document.querySelector(".status");
+    const clearButton = document.querySelector(".reset");
+    const history = document.querySelector(".moveHistory");
+    clearButton.addEventListener("click", () => {
+        //set things back to default:
+        //set currentplayer back to player 1
+        if(GameController.getCurrentPlayer().symbol != "X"){
+            GameController.switchPlayer();
+        }
+        status.textContent = `Currently ${GameController.getCurrentPlayer().name}'s turn...`;
+
+        //set moveHistory back to default
+        history.textContent = "Last Turn:"
+        //set board back to 3x3 0
+        board.clearBoard();
         buttons.forEach((button) => {
-            const position = button.className.split(",");
-            button.addEventListener("click", () => {
-                if(board.getBoard()[position[0]][position[1]] == 0 && !(board.checkBoard(GameController.getCurrentPlayer().symbol))){
-                    button.textContent = GameController.getCurrentPlayer().symbol;
-                    GameController.playRound(position[0], position[1]);
-                }
-            })
-        });
-    }
-    assignButtons();
+            button.textContent = "";
+        })
+    });
+
+    const openModal = document.querySelector(".rename .openModal");
+    const closeModal = document.querySelector(".rename .closeModal");
+    const dialog = document.querySelector("dialog");
+    openModal.addEventListener("click", () => {
+        dialog.showModal();
+    });
+
+    closeModal.addEventListener("click", () => {
+        dialog.close();
+    });
+    
+
+
 
 })();
 
