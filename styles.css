@@ -3,6 +3,26 @@
     padding: 0;
 }
 
+.gameInfo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.gameInfo div{
+    margin: 8px 0px;
+}
+
+.gameInfo .title{
+    display: flex;
+    width: 50%;
+    justify-content: space-evenly;
+}
+
+.gameInfo .info{
+    text-align: center; 
+}
+
 .board{
     margin: auto;
     background-color: black;

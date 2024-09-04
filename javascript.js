@@ -39,7 +39,10 @@ const board = (function(){
            board[2][0] == symbol && board[2][1] == symbol && board[2][2] == symbol ||
            board[0][0] == symbol && board[1][1] == symbol && board[2][2] == symbol ||
            board[0][2] == symbol && board[1][1] == symbol && board[2][0] == symbol)
-        return true;
+           {
+            return true;
+        }  
+        return false;
     }
 
     return{getBoard, modifyBoard, clearBoard, printBoard, checkBoard};
@@ -68,23 +71,32 @@ const GameController = (function(){
 
     const getCurrentPlayer = () => currentPlayer;
 
+    const status = document.querySelector(".status");
+    const history = document.querySelector(".moveHistory");
+
     const printNewRound = () => {
         board.printBoard();
         console.log(`Currently ${getCurrentPlayer().name}'s turn...`);
+        status.textContent = `Currently ${getCurrentPlayer().name}'s turn...`;
     }
 
     const playRound = (row, col) => {
-        console.log(`${getCurrentPlayer().name} places symbol at row: ${row} and col: ${col}.`);
-
-        board.modifyBoard(row, col, getCurrentPlayer().symbol);
-
-        //do check here for win con
-        if(board.checkBoard(getCurrentPlayer().symbol)){
-            board.printBoard();
-            console.log(`Congrats ${getCurrentPlayer.name}, You Won!`);
-        }else{
-            switchPlayer();
-            printNewRound();
+        if(board.getBoard()[row][col] == 0){
+            console.log(`${getCurrentPlayer().name} places symbol at row: ${row} and col: ${col}.`);
+            history.textContent = `${getCurrentPlayer().name} places symbol at row: ${row} and col: ${col}.`;
+            board.modifyBoard(row, col, getCurrentPlayer().symbol);
+            //do check here for win con
+            if(board.checkBoard(getCurrentPlayer().symbol)){
+                board.printBoard();
+                console.log(`Congrats ${getCurrentPlayer().name}, You Won!`); 
+                status.textContent = `Congrats ${getCurrentPlayer().name}, You Won!`;
+            }else{
+                switchPlayer();
+                printNewRound();
+            }
+        } else {
+            console.log(`Row: ${row} and Col: ${col} is already filled please pick again`)
+            history.textContent = `Row: ${row} and Col: ${col} is already filled please pick again`;
         }
     }
 
@@ -93,5 +105,21 @@ const GameController = (function(){
     return {playRound, getCurrentPlayer};
 })();
 
+const DisplayController = (function(){
+    const assignButtons = () => {
+        const buttons = document.querySelectorAll(".board button");
+        const status = document.querySelector(".status");
+        buttons.forEach((button) => {
+            const position = button.className.split(",");
+            button.addEventListener("click", () => {
+                if(board.getBoard()[position[0]][position[1]] == 0 && !(board.checkBoard(GameController.getCurrentPlayer().symbol))){
+                    button.textContent = GameController.getCurrentPlayer().symbol;
+                    GameController.playRound(position[0], position[1]);
+                }
+            })
+        });
+    }
+    assignButtons();
 
+})();
 
