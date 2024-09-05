@@ -63,6 +63,8 @@ const GameController = (function(){
         Player("player2", "O")
     ]
 
+    const getPlayers = () => players;
+
     let currentPlayer = players[0];
 
     const switchPlayer = () => {
@@ -102,7 +104,7 @@ const GameController = (function(){
 
     printNewRound();
 
-    return {playRound, switchPlayer, getCurrentPlayer};
+    return {playRound, switchPlayer, getCurrentPlayer, getPlayers};
 })();
 
 const DisplayController = (function(){
@@ -158,6 +160,7 @@ const DisplayController = (function(){
     const openModal = document.querySelector(".rename .openModal");
     const closeModal = document.querySelector(".rename .closeModal");
     const dialog = document.querySelector("dialog");
+    const submit = document.querySelector(".submit");
     openModal.addEventListener("click", () => {
         dialog.showModal();
     });
@@ -165,6 +168,33 @@ const DisplayController = (function(){
     closeModal.addEventListener("click", () => {
         dialog.close();
     });
+
+
+    
+    submit.addEventListener("click", () => {
+        // get what is in input and assign it to Gamecontorller.plyayers[index]
+        const inputs = document.querySelectorAll(".prompts input");
+        inputs.forEach((input) => {
+            if(input.value){ // have value
+                GameController.getPlayers()[input.className].name = input.value;
+            }
+        })
+        displayNames();
+        dialog.close();
+    });
+   
+    const names = document.querySelectorAll(".name") 
+    const displayNames = () => {
+        names.forEach((name) => {
+            const temp = name.className.split(" ");
+            const index = temp[1];
+            name.textContent = `${GameController.getPlayers()[index].name}: ${GameController.getPlayers()[index].symbol}`
+        });
+    }
+
+    displayNames();
+
+
     
 
 
